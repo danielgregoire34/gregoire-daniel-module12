@@ -1,13 +1,13 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
 //const db = require(".");
+//require("console.table");
 
 const db = mysql.createConnection(
     {
     host: 'localhost',
-      // MySQL username,
+    port:3306,
     user: 'root',
-      // MySQL password
     password: '1234',
     database: 'tracker_db'
     },
@@ -23,7 +23,6 @@ db.connect(function(err){
 })
 
 function start(){
-
     inquirer
     .prompt({
     type: "list",
@@ -41,12 +40,18 @@ function start(){
     ],
     })
     .then(function(result) {
-    console.info("You entered: " + result.name);
+    console.info("You entered: " + result.start);
 
-    switch (result.name) {
-        
-        case "View employees":
+    switch (result.start) {
+        case "View All Employees":
         viewEmployees();
+        break;
+        case "Add Employees":
+        addEmployee();
+        break;
+        case "Update Employee Role":
+        viewEmployees();
+        break;
     }
 }
 );
@@ -55,9 +60,8 @@ function start(){
 
 
 function viewEmployees(){
-  let query = "SELECT * FROM employee";
-
-connection.query(query, function(err, res) 
+let query = "SELECT * FROM employee";
+db.query(query, function(err, res) 
 {
     if (err) throw err;
     console.table(res);
@@ -67,13 +71,48 @@ connection.query(query, function(err, res)
 }
 
 
-/*
-
-app.use((req, res) => {
-    res.status(404).end();
-});
-
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
-*/
+function addEmployee(){
+inquirer.prompt([
+    {
+        type:"input",
+        message: "What's the employee's ID",
+        name:"eid"
+    },
+    {
+        type:"input",
+        message: "What's the employee's first name?",
+        name:"efn"
+    },
+    {
+        type:"input",
+        message: "What's the employee's last name?",
+        name:"eln"
+    },
+    {
+        type:"input",
+        message: "Who is there manager?",
+        name:"em"
+    },
+    {
+        type:"input",
+        message: "What is their department",
+        name:"ed"
+    },
+    {
+        type: "input",
+        message:"How much do they make?",
+        name:"emon"
+    },
+    {
+        type:"input",
+        message: "What is their title?",
+        name:"et"
+    },
+]).then(function(result){
+    db.query("INSERT INTO employee (id, first_name, last_name, title, department, salary, manager) VALUES (?,?,?,?,?,?,?)",[result.eid, result.efn, result.eln, result.em,result.ed,result.emon,result.et], function(err, res) {
+        if (err) throw err;
+        console.table(res);
+        start();
+})
+})
+}
