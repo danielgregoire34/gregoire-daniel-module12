@@ -50,8 +50,22 @@ function start(){
         addEmployee();
         break;
         case "Update Employee Role":
-        viewEmployees();
+        updateEmployees();
         break;
+        case "View All Roles":
+        viewAllRoles();
+        break;
+        case "Add Roles":
+        addRoles();
+        break;
+        case "View All Departments":
+        viewAllDepartments();
+        break;
+        case "Add Departments":
+        addDepartments();
+        break;
+        case "Quit":
+        quit();
     }
 }
 );
@@ -115,4 +129,26 @@ inquirer.prompt([
         start();
 })
 })
+}
+
+function updateEmployees(){
+inquirer.prompt([
+{
+    type: "input",
+    message: "Which employee role do you want to update?",
+    name:"eu"
+},
+{
+    type: "input",
+    message: "Which role do you want to assign to the employee?",
+    name:"er"
+},
+]).then(function(result){
+    db.query('UPDATE employee SET title=? WHERE fire_name= ?',[result.er,result.eu], function(err,res){
+        if(err) throw err;
+        console.table(res);
+        start();
+    })
+})
+
 }
