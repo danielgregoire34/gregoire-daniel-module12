@@ -123,7 +123,8 @@ inquirer.prompt([
         name:"et"
     },
 ]).then(function(result){
-    db.query("INSERT INTO employee (id, first_name, last_name, title, department, salary, manager) VALUES (?,?,?,?,?,?,?)",[result.eid, result.efn, result.eln, result.em,result.ed,result.emon,result.et], function(err, res) {
+    db.query("INSERT INTO employee (id, first_name, last_name, title, department, salary, manager) VALUES (?,?,?,?,?,?,?)",
+    [result.eid, result.efn, result.eln, result.em,result.ed,result.emon,result.et], function(err, res) {
         if (err) throw err;
         console.table(res);
         start();
@@ -144,7 +145,8 @@ inquirer.prompt([
     name:"er"
 },
 ]).then(function(result){
-    db.query('UPDATE employee SET title=? WHERE fire_name= ?',[result.er,result.eu], function(err,res){
+    db.query('UPDATE employee SET title=? WHERE first_name= ?',
+    [result.er,result.eu], function(err,res){
         if(err) throw err;
         console.table(res);
         start();
@@ -152,3 +154,88 @@ inquirer.prompt([
 })
 
 }
+
+function viewAllRoles(){
+    let query = "SELECT * FROM role";
+    db.query(query, function(err, res) 
+    {
+        if (err) throw err;
+        console.table(res);
+        start();
+    });
+    
+    }
+    
+    
+function addRoles(){
+    inquirer.prompt([
+        {
+            type:"input",
+            message: "What's the roles's ID",
+            name:"rid"
+        },
+        {
+            type:"input",
+            message: "What is the role's title?",
+            name:"rt"
+        },
+        {
+            type:"input",
+            message: "What is the roles department?",
+            name:"rd"
+        },
+        {
+            type:"input",
+            message: "Who is roles salary?",
+            name:"rs"
+        },
+    ]).then(function(result){
+        db.query("INSERT INTO role (id, title, department, salary) VALUES (?,?,?,?)",
+        [result.rid, result.rt, result.rd, result.rs], function(err, res) {
+            if (err) throw err;
+            console.table(res);
+            start();
+    })
+    })
+    }
+    
+
+    function viewAllDepartments(){
+        let query = "SELECT * FROM department";
+        db.query(query, function(err, res) 
+        {
+            if (err) throw err;
+            console.table(res);
+            start();
+        });
+        
+        }
+
+
+        
+function addDepartments(){
+    inquirer.prompt([
+        {
+            type:"input",
+            message: "What's the department's ID",
+            name:"did"
+        },
+        {
+            type:"input",
+            message: "What is the department's title?",
+            name:"dt"
+        },
+    ]).then(function(result){
+        db.query("INSERT INTO department (id, title) VALUES (?,?)",
+        [result.did, result.dt], function(err, res) {
+            if (err) throw err;
+            console.table(res);
+            start();
+    })
+    })
+    }
+
+    function quit(){
+        db.end();
+        process.exit();
+    }
