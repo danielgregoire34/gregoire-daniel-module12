@@ -6,7 +6,7 @@ to install the user must use inquirer and mysql2
 
 ## Video link and Github page
 Here is the video link: 
-https://drive.google.com/file/d/1xbRz_1SRM2rXXtBEsR8Yf23uVXNtZq5S/view?usp=sharing
+https://drive.google.com/file/d/1mq5vwd1qpSUoF-Uqi4cOwkMZYUxtTEXo/view?usp=sharing
 
 Here is the github page: 
 https://github.com/danielgregoire34/gregoire-daniel-module10
