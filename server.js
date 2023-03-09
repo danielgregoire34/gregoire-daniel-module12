@@ -1,7 +1,5 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
-//const db = require(".");
-//require("console.table");
 
 const db = mysql.createConnection(
     {
